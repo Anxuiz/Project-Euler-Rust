@@ -1,16 +1,17 @@
 #!/bin/bash
 if [ $# -ne 1 ]; then
-	echo "Usage: $0 <path>"
-	exit 1
+    echo "Usage: $0 <source>"
+    exit 1
 fi
 
-file="$1"
-output=${file%.rs}
+source="$1"
+filename=$(basename "$source")
+output="/tmp/${filename%.rs}"
 
-rustc "$file"
+rustc "$source" -o "$output"
 if [ $? -ne 0 ]; then
-	exit 1
+    exit 1
 fi
 
-./$output
+"$output"
 rm "$output"
