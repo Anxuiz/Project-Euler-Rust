@@ -1,5 +1,5 @@
 # install basic tools
-apt-get -y install python-software-properties vim
+apt-get -y install dos2unix python-software-properties vim
 
 # install Rust nightly
 add-apt-repository ppa:hansjorg/rust
@@ -12,23 +12,6 @@ echo 'au BufNewFile,BufRead *.rs set filetype=rust' >> /usr/share/vim/vimrc
 
 # install run-rust tool
 run_rust_path=/usr/local/bin/run-rust
-cat > "$run_rust_path" <<EOF
-#!/bin/bash
-if [ $# -ne 1 ]; then
-    echo "Usage: $0 <source>"
-    exit 1
-fi
-
-source="$1"
-filename=$(basename "$source")
-output="/tmp/${filename%.rs}"
-
-rustc "$source" -o "$output"
-if [ $? -ne 0 ]; then
-    exit 1
-fi
-
-"$output"
-rm "$output"
-EOF
+cp /vagrant/run-rust "$run_rust_path"
+dos2unix "$run_rust_path" # in case host is Windows
 chmod +x "$run_rust_path"
