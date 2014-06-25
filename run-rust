@@ -1,6 +1,6 @@
 #!/bin/bash
-if [ $# -ne 1 ]; then
-	echo "Usage: $0 <source>"
+if [ $# -lt 1 ]; then
+	echo "Usage: $0 <source> [args...]"
 	exit 1
 fi
 
@@ -13,5 +13,6 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-"$output"
+shift # remove program name argument
+"$output" $@
 rm "$output"
