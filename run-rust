@@ -6,7 +6,7 @@ fi
 
 source="$1"
 filename=$(basename "$source")
-output="/tmp/${filename%.rs}"
+output="${filename%.rs}.tmp"
 
 rustc "$source" -o "$output"
 if [ $? -ne 0 ]; then
